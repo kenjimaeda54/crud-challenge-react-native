@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "620663648181",
+    "project_id": "challenge-crud",
+    "storage_bucket": "challenge-crud.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620663648181:android:4d18f5bf4429b7ed15f3fc",
+        "android_client_info": {
+          "package_name": "com.crudchangelle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620663648181-3hma7tnqt5isroluascmslaiur9v2mnd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgwtusqXxTmmzkK5kYLgeGDiB6TbdaUu0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620663648181-3hma7tnqt5isroluascmslaiur9v2mnd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

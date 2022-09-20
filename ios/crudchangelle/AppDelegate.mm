@@ -1,10 +1,13 @@
 #import "AppDelegate.h"
 
+//firebase
+#import <Firebase.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 #import <React/RCTConvert.h>
+
 
 #import <React/RCTAppSetupUtils.h>
 
@@ -34,7 +37,12 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   RCTAppSetupPrepareApp(application);
-
+  
+  // Firebase
+  if ([FIRApp defaultApp] == nil) {
+          [FIRApp configure];
+  }
+   
   RCTBridge *bridge = [self.reactDelegate createBridgeWithDelegate:self launchOptions:launchOptions];
 
 #if RCT_NEW_ARCH_ENABLED
