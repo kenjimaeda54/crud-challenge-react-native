@@ -7,6 +7,7 @@ export const Container = styled.View`
   padding: 12px 15px;
   background-color: ${({ theme }) => theme.colors.gray03};
   border-radius: 8px;
+  margin: 7px 0px;
 `;
 
 export const FieldName = styled.Text`

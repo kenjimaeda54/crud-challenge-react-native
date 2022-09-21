@@ -12,6 +12,14 @@ export const WrapView = styled.View`
   justify-content: space-between;
 `;
 
+export const TextWarning = styled.Text`
+  font-size: 12px;
+  font-family: ${({ theme }) => theme.fonts.inter300};
+  color: ${({ theme }) => theme.colors.gray02};
+  margin-left: 3px;
+  margin-top: 10px;
+`;
+
 export const Input = styled.TextInput`
   padding: 16px;
   background-color: ${({ theme }) => theme.colors.gray03};
