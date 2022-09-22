@@ -1,5 +1,6 @@
 import React from "react";
 import auth from "@react-native-firebase/auth";
+import { useSelector } from "react-redux";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
@@ -14,7 +15,7 @@ export default function Login() {
   async function handleLogin() {
     const { idToken } = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    store.dispatch({ type: ActionsReduces.isLoggedIn });
+    store.dispatch({ type: ActionsReduces.payloadUser });
     return auth().signInWithCredential(googleCredential);
   }
 

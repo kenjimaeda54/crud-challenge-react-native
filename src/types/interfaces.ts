@@ -1,6 +1,10 @@
-export interface FireStoreProps {
+export interface Tasks {
   description: string;
-  uid: string;
+  uuid: string;
+}
+
+export interface FireStoreTasks {
+  tasks: Tasks[];
 }
 
 export interface UserProps {

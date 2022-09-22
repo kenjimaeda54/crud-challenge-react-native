@@ -1,4 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
+import auth from "@react-native-firebase/auth";
 import { ActionsReduces } from "../../../types/ActionsReduces";
 import { UserProps } from "../../../types/interfaces";
 
@@ -10,5 +11,7 @@ export const user = createAction(
     };
   }
 );
-export const isLoggedOut = createAction(ActionsReduces.isLoggedOut);
-export const isLoggedIn = createAction(ActionsReduces.isLoggedIn);
+
+export const database = createAction(ActionsReduces.payloadData);
+
+export type Actions = ReturnType<typeof user | typeof database>;

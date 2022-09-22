@@ -1,15 +1,19 @@
 import { useTheme } from "@emotion/react";
 import React, { forwardRef, ForwardRefRenderFunction } from "react";
-import { KeyboardAvoidingView, TouchableOpacityProps } from "react-native";
+import {
+  KeyboardAvoidingView,
+  TouchableOpacityProps,
+  TextInputProps,
+} from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Container, Title, Button, FieldName, TextButton } from "./styles";
 
-type EditTaskProps = TouchableOpacityProps & {
-  description: string;
-};
+type EditTaskProps = RootEditTaskProps;
+
+type RootEditTaskProps = TouchableOpacityProps & TextInputProps;
 
 const EditTask: ForwardRefRenderFunction<Modalize, EditTaskProps> = (
-  { description, ...rest },
+  { ...rest },
   ref
 ) => {
   const { colors } = useTheme();
@@ -32,7 +36,7 @@ const EditTask: ForwardRefRenderFunction<Modalize, EditTaskProps> = (
     >
       <Container>
         <Title>Clique no texto para editar</Title>
-        <FieldName value={description} />
+        <FieldName {...rest} />
         <Button {...rest}>
           <TextButton>Editar</TextButton>
         </Button>

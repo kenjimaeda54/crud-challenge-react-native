@@ -1,6 +1,10 @@
 import styled from "@emotion/native";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
+interface ButtonProps {
+  disabledButton: boolean;
+}
+
 export const Container = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.colors.background};
@@ -31,8 +35,9 @@ export const Input = styled.TextInput`
   color: ${({ theme }) => theme.colors.gray02};
 `;
 
-export const Button = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity<ButtonProps>`
   border-radius: 6px;
-  background-color: ${({ theme }) => theme.colors.blue};
+  background-color: ${({ theme, disabledButton }) =>
+    disabledButton ? theme.colors.gray03 : theme.colors.blue};
   padding: 20px 24px;
 `;

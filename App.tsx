@@ -1,9 +1,9 @@
 import * as React from "react";
 import { StatusBar } from "react-native";
+import { Provider } from "react-redux";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { ThemeProvider } from "@emotion/react";
 import AppLoading from "expo-app-loading";
-import Home from "./src/screens/Home/index";
 import { theme } from "./src/global/theme";
 import {
   useFonts,
@@ -12,7 +12,8 @@ import {
   Inter_400Regular,
   Inter_500Medium,
 } from "@expo-google-fonts/inter";
-import Login from "./src/screens/Login";
+import Routes from "./src/routes";
+import { store } from "./src/reducer";
 
 GoogleSignin.configure({
   webClientId:
@@ -31,9 +32,11 @@ export default function Main() {
     return <AppLoading />;
   }
   return (
-    <ThemeProvider theme={theme}>
-      <StatusBar translucent barStyle="light-content" />
-      <Login />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <StatusBar translucent barStyle="light-content" />
+        <Routes />
+      </ThemeProvider>
+    </Provider>
   );
 }
