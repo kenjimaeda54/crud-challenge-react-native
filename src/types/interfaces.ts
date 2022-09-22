@@ -7,7 +7,7 @@ export interface UserProps {
   displayName: string;
   email: string;
   isAnonymous: boolean;
-  photoUrl: string;
-  refreshToken: string;
+  photoUrl?: string;
+  refreshToken?: string;
   uid: string;
 }

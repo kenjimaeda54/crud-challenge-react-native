@@ -14,7 +14,7 @@ export default function Login() {
   async function handleLogin() {
     const { idToken } = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    store.dispatch({ type: ActionsReduces.isLogged });
+    store.dispatch({ type: ActionsReduces.isLoggedIn });
     return auth().signInWithCredential(googleCredential);
   }
 

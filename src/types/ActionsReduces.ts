@@ -1,4 +1,5 @@
 export enum ActionsReduces {
-  isLogged = "USER_LOGGED",
+  isLoggedIn = "USER_LOGGEDIn",
   isLoggedOut = "USER_LOGGEDOUT",
+  userProps = "USER_PROPS",
 }
