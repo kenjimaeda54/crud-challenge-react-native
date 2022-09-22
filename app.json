@@ -3,6 +3,13 @@
     "name": "crud-changelle",
     "slug": "crud-changelle",
     "version": "1.0.0",
-    "assetBundlePatterns": ["**/*"]
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "googleServicesFile": "./google-services.json"
+    },
+    "ios": {
+      "googleServicesFile": "./GoogleService-Info.plist"
+    },
+    "plugins": ["@react-native-google-signin/google-signin"]
   }
 }

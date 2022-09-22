@@ -1,5 +1,6 @@
 import * as React from "react";
 import { StatusBar } from "react-native";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { ThemeProvider } from "@emotion/react";
 import AppLoading from "expo-app-loading";
 import Home from "./src/screens/Home/index";
@@ -11,6 +12,12 @@ import {
   Inter_400Regular,
   Inter_500Medium,
 } from "@expo-google-fonts/inter";
+import Login from "./src/screens/Login";
+
+GoogleSignin.configure({
+  webClientId:
+    "620663648181-3hma7tnqt5isroluascmslaiur9v2mnd.apps.googleusercontent.com",
+});
 
 export default function Main() {
   let [fontsLoaded] = useFonts({
@@ -26,7 +33,7 @@ export default function Main() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar translucent barStyle="light-content" />
-      <Home />
+      <Login />
     </ThemeProvider>
   );
 }
