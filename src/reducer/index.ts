@@ -8,8 +8,8 @@ import {
 import Routes from "../routes";
 import auth from "@react-native-firebase/auth";
 import fireStore from "@react-native-firebase/firestore";
-import { authReducer } from "./modules/firebase/reducers";
-import { user } from "./modules/firebase/actions";
+import { authReducer } from "./modules/auth/reducers";
+import { user } from "./modules/auth/actions";
 import { UserProps } from "../types/interfaces";
 import { ActionsReduces } from "../types/ActionsReduces";
 import { KeysCollection } from "../types/keysCollection";

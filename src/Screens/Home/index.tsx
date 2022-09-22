@@ -1,7 +1,8 @@
-import React, { useRef, useState, useId, useEffect } from "react";
+import React, { useRef, useState, useId, useEffect, ElementRef } from "react";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { useSelector } from "react-redux";
 import uuid from "react-native-uuid";
+import firebase from "@react-native-firebase/app";
 import fireStore from "@react-native-firebase/firestore";
 import { AntDesign } from "@expo/vector-icons";
 import { Container, Input, Button, WrapView, TextWarning } from "./styles";
@@ -14,7 +15,6 @@ import { FlatList } from "react-native-gesture-handler";
 import { View } from "react-native";
 import { KeysCollection } from "../../types/keysCollection";
 import { RootStore } from "../../reducer/";
-import { current } from "immer";
 
 export default function Header() {
   const theme = useTheme();
@@ -31,7 +31,16 @@ export default function Header() {
     setUserAuth(user);
   }, [user]);
 
-  const handleDelete = () => console.log("delete foi clidado");
+  const handleDelete = async (task: Tasks) => {
+    const remove = firebase.firestore.FieldValue.arrayRemove(task);
+    await fireStore()
+      .collection(KeysCollection.tasks)
+      .doc(userAuth.uid)
+      .update({
+        tasks: remove,
+      })
+      .catch((error) => console.log(error.toString()));
+  };
 
   const handleModal = (itemSelected: Tasks) => {
     refModalize.current.open();
@@ -44,29 +53,29 @@ export default function Header() {
   }, [user]);
 
   async function getDocument() {
-    let setEdges = new Set();
-    fireStore()
-      .collection(KeysCollection.tasks)
-      .doc(userAuth.uid)
-      .onSnapshot(async (querySnapshot) => {
-        if (querySnapshot.exists) {
-          const newData = querySnapshot.data() as FireStoreTasks;
-          //unindo todas as tarefas presentes mais as novas que
-          //serão construídas
-          const unionTasks = [...data, ...newData.tasks];
-          console.log(newData.tasks, "sera qeu autlizou");
-          console.log(data, "nao foipara document");
-          //removendo os array duplicado
-          const tasks = unionTasks.filter((it) => {
-            const typeDuplicated = setEdges.has(it.uuid);
-            setEdges.add(it.uuid);
-            return !typeDuplicated;
-          });
-          setData(tasks);
-          return;
-        }
-        setEdges = null;
-      });
+    let isMounted = false;
+    if (!isMounted) {
+      fireStore()
+        .collection(KeysCollection.tasks)
+        .doc(userAuth.uid)
+        .onSnapshot(async (querySnapshot) => {
+          if (querySnapshot.exists) {
+            isMounted = true;
+            const newData = querySnapshot.data() as FireStoreTasks;
+            //unindo todas as tarefas presentes mais as novas que
+            //serão construídas
+            const unionTasks = [...data, ...newData.tasks];
+            //removendo os array duplicado
+            const setEdges = new Set();
+            const tasks = unionTasks.filter((it) => {
+              const typeDuplicated = setEdges.has(it.uuid);
+              setEdges.add(it.uuid);
+              return !typeDuplicated;
+            });
+            setData(tasks);
+          }
+        });
+    }
   }
 
   async function handleTasks() {
@@ -82,18 +91,14 @@ export default function Header() {
         doc.set({ tasks });
         setDescription("");
         getDocument();
-        setIsRefresh(true);
       } else {
         let tasks = [...data, { uuid: id, description }];
         setDescription("");
         doc.set({ tasks });
         getDocument();
-        setIsRefresh(true);
       }
     } catch (error) {
       console.log(error.toString());
-    } finally {
-      setIsRefresh(true);
     }
   }
 
@@ -111,7 +116,7 @@ export default function Header() {
       .then(() => {
         refModalize.current.close();
         const findTask = data.findIndex((it) => it.uuid === taskSelected.uuid);
-        //removendo o índice para atualizar a lista
+        // removendo o índice para atualizar a lista
         setData(data.splice(findTask, 1));
         getDocument();
       })
@@ -147,12 +152,11 @@ export default function Header() {
       <FlatList
         data={data}
         keyExtractor={(item) => item.uuid}
-        refreshing={isRefresh}
         renderItem={({ item }) => (
           <CardTask
-            handleDelete={handleDelete}
-            description={item.description}
+            handleDelete={() => handleDelete(item)}
             onPress={() => handleModal(item)}
+            description={item.description}
           />
         )}
         contentContainerStyle={{
