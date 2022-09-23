@@ -1,6 +1,5 @@
 import React from "react";
 import auth from "@react-native-firebase/auth";
-import { useSelector } from "react-redux";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";

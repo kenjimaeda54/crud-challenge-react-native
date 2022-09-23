@@ -1,4 +1,4 @@
-import React, { useRef, useState, useId, useEffect, ElementRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { useSelector } from "react-redux";
 import uuid from "react-native-uuid";
@@ -12,7 +12,6 @@ import EditTask from "../../components/Modal";
 import { Modalize } from "react-native-modalize";
 import { FireStoreTasks, Tasks, UserProps } from "../../types/interfaces";
 import { FlatList } from "react-native-gesture-handler";
-import { View } from "react-native";
 import { KeysCollection } from "../../types/keysCollection";
 import { RootStore } from "../../reducer/";
 
@@ -26,6 +25,7 @@ export default function Header() {
   const [userAuth, setUserAuth] = useState<UserProps>({} as UserProps);
   const [taskSelected, setTaskSelected] = useState<Tasks>({} as Tasks);
   const [valueEditTask, setValueEditTask] = useState("");
+  let isMounted = false;
 
   useEffect(() => {
     setUserAuth(user);
@@ -33,13 +33,19 @@ export default function Header() {
 
   const handleDelete = async (task: Tasks) => {
     const remove = firebase.firestore.FieldValue.arrayRemove(task);
-    await fireStore()
-      .collection(KeysCollection.tasks)
-      .doc(userAuth.uid)
-      .update({
-        tasks: remove,
-      })
-      .catch((error) => console.log(error.toString()));
+    if (!isMounted) {
+      isMounted = true;
+      await fireStore()
+        .collection(KeysCollection.tasks)
+        .doc(userAuth.uid)
+        .update({
+          tasks: remove,
+        })
+        .then(() => {
+          setData(data.filter((it) => it.uuid !== task.uuid));
+        })
+        .catch((error) => console.log(error.toString()));
+    }
   };
 
   const handleModal = (itemSelected: Tasks) => {
@@ -53,14 +59,13 @@ export default function Header() {
   }, [user]);
 
   async function getDocument() {
-    let isMounted = false;
     if (!isMounted) {
+      isMounted = true;
       fireStore()
         .collection(KeysCollection.tasks)
         .doc(userAuth.uid)
         .onSnapshot(async (querySnapshot) => {
           if (querySnapshot.exists) {
-            isMounted = true;
             const newData = querySnapshot.data() as FireStoreTasks;
             //unindo todas as tarefas presentes mais as novas que
             //serão construídas
@@ -72,7 +77,7 @@ export default function Header() {
               setEdges.add(it.uuid);
               return !typeDuplicated;
             });
-            setData(tasks);
+            setData(tasks.reverse());
           }
         });
     }
@@ -80,22 +85,25 @@ export default function Header() {
 
   async function handleTasks() {
     try {
-      if (description.length < 5) return;
-      const id = uuid.v4() as string;
-      const db = fireStore().collection(KeysCollection.tasks);
-      const doc = db.doc(userAuth.uid);
-      //caso nao possua dados sera setado apenas valor
-      //se possui sera setado construído o array de tarefas
-      if (data.length === 0) {
-        const tasks = [{ uuid: id, description }];
-        doc.set({ tasks });
-        setDescription("");
-        getDocument();
-      } else {
-        let tasks = [...data, { uuid: id, description }];
-        setDescription("");
-        doc.set({ tasks });
-        getDocument();
+      if (!isMounted) {
+        isMounted = true;
+        if (description.length < 5) return;
+        const id = uuid.v4() as string;
+        const db = fireStore().collection(KeysCollection.tasks);
+        const doc = db.doc(userAuth.uid);
+        //caso nao possua dados sera setado apenas valor
+        //se possui sera setado construído o array de tarefas
+        if (data.length === 0) {
+          const tasks = [{ uuid: id, description }];
+          doc.set({ tasks });
+          setDescription("");
+          getDocument();
+        } else {
+          let tasks = [...data, { uuid: id, description }];
+          setDescription("");
+          doc.set({ tasks });
+          getDocument();
+        }
       }
     } catch (error) {
       console.log(error.toString());
@@ -104,23 +112,24 @@ export default function Header() {
 
   function handleEditTask() {
     //atualizando os dados do firebase
-    console.log(taskSelected.uuid);
     const newTask = { uuid: taskSelected.uuid, description: valueEditTask };
     //criando uma lista para atualizar no banco
     const task = data.filter((it) => it.uuid !== taskSelected.uuid);
     const tasks = [...task, newTask];
-    fireStore()
-      .collection(KeysCollection.tasks)
-      .doc(userAuth.uid)
-      .set({ tasks })
-      .then(() => {
-        refModalize.current.close();
-        const findTask = data.findIndex((it) => it.uuid === taskSelected.uuid);
-        // removendo o índice para atualizar a lista
-        setData(data.splice(findTask, 1));
-        getDocument();
-      })
-      .catch((error) => console.log(error));
+    if (!isMounted) {
+      isMounted = true;
+      fireStore()
+        .collection(KeysCollection.tasks)
+        .doc(userAuth.uid)
+        .set({ tasks })
+        .then(() => {
+          refModalize.current.close();
+          // removendo o índice para atualizar a lista
+          setData(tasks.reverse());
+          getDocument();
+        })
+        .catch((error) => console.log(error));
+    }
   }
 
   return (

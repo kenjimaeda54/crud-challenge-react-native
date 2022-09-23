@@ -10,9 +10,7 @@ import auth from "@react-native-firebase/auth";
 import fireStore from "@react-native-firebase/firestore";
 import { authReducer } from "./modules/auth/reducers";
 import { user } from "./modules/auth/actions";
-import { UserProps } from "../types/interfaces";
 import { ActionsReduces } from "../types/ActionsReduces";
-import { KeysCollection } from "../types/keysCollection";
 
 // action e o ação que foi disparada
 // next seria uma função de dispatch(alguma acao)

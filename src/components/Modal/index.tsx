@@ -1,10 +1,6 @@
 import { useTheme } from "@emotion/react";
 import React, { forwardRef, ForwardRefRenderFunction } from "react";
-import {
-  KeyboardAvoidingView,
-  TouchableOpacityProps,
-  TextInputProps,
-} from "react-native";
+import { TouchableOpacityProps, TextInputProps } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Container, Title, Button, FieldName, TextButton } from "./styles";
 
