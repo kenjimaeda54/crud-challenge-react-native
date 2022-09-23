@@ -1,5 +1,5 @@
 # Crud React Native 
-Aplicacao de Todo com firebase e Redux
+Aplicação de Todo com firebase e Redux
 
 
 # Oque aprendi?
