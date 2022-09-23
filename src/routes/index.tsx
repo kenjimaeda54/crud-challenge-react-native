@@ -11,7 +11,7 @@ export default function Routes() {
 
   //precisa do useEffect
   useEffect(() => {
-    if (Object.keys(user).length > 0) {
+    if (user?.isAnonymous === false) {
       setIsAnonymous(user.isAnonymous);
     }
   }, [user]);
