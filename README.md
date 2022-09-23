@@ -43,9 +43,9 @@ const middleWareLogged =
 
 ![alt text](https://github.com/kenjimaeda54/crud-challenge-react-native/blob/develop/Screen%20Shot%202022-09-22%20at%2023.03.43.png)
 
+![alt text](https://github.com/kenjimaeda54/crud-challenge-react-native/blob/develop/Screen%20Shot%202022-09-22%20at%2023.05.08.png)
 
-
-
+![alt text](https://github.com/kenjimaeda54/crud-challenge-react-native/blob/develop/Screen%20Shot%202022-09-22%20at%2023.05.28.png)
 
 
 
