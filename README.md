@@ -31,11 +31,12 @@ const middleWareLogged =
 ##
 
 ## Como testar?
-- Projeto foi realido em expo bare flow ou seja possui liberadde para iniciar nativamente com npm run ios ou npm run android
-- Tambem inicar com servidor do expo com expo start
-- Primeiro clone o projeto apos isto instale as dependencias com gerenciador de pacotes preferidos yarn ou npm
-- Para garantir funcionamento em ios cd ios && pod install --repo-update
-- Instalacao do cocopados pode ser relizado e recomendao com uso do [brew](https://brew.sh/index_pt-br)
+- Projeto foi realizado  expo bare flow, ou seja possui liberdade para iniciar nativamente com npm run ios ou npm run android
+- Também inciar com servidor do expo com expo start
+- Primeiro clone o projeto,apos isto instale as dependências, com gerenciador de pacotes preferidos yarn ou npm
+- Recomendamos usar o yarn 
+- Para garantir funcionamento em ios:  cd ios && pod install --repo-update
+- Instalação do cocopados pode ser realizado inclusive  recomendo  uso do [brew](https://brew.sh/index_pt-br)
 
 
 
